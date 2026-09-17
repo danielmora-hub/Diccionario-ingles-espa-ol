@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diccionario Interactivo Inglés - Español</title>
+<style>
+*{box-sizing:border-box} body{margin:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#eef4ff,#f8f5ff);color:#26324a}
+header{background:linear-gradient(135deg,#536dfe,#7c4dff);color:white;padding:28px 18px;text-align:center}
+h1{margin:0 0 7px;font-size:30px} header p{margin:0;font-size:16px}
+.toolbar{max-width:900px;margin:18px auto;padding:0 15px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+input{flex:1;min-width:240px;padding:13px 16px;border:2px solid #dbe1f5;border-radius:14px;font-size:16px;background:white}
+button{border:0;border-radius:12px;padding:11px 15px;background:#536dfe;color:white;font-weight:bold;cursor:pointer}
+button:hover{filter:brightness(.95)} .counter{text-align:center;font-weight:bold;margin:8px}
+.grid{max-width:900px;margin:0 auto 30px;padding:0 15px;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}
+.card{background:white;border-radius:22px;padding:20px;box-shadow:0 8px 25px #26324a18;border:1px solid #e7eaff;position:relative}
+.number{position:absolute;right:15px;top:15px;background:#eef1ff;color:#536dfe;border-radius:20px;padding:5px 9px;font-weight:bold}
+.english{font-size:28px;font-weight:800;color:#3f51b5;margin-top:5px} .spanish{font-size:19px;font-weight:bold;margin:5px 0 12px}
+.pron{font-size:21px;font-weight:bold;background:#f0f3ff;padding:10px;border-radius:12px} .letters{margin-top:8px;color:#59657c;font-weight:bold}
+.grammar{margin-top:10px;padding:10px 12px;border-radius:12px;background:#eef8f3;color:#245c45}.vowels{margin-top:8px;padding:10px 12px;border-radius:12px;background:#fff7e8;color:#6b4d18}.section{margin-top:15px;background:#f8f9fd;padding:12px;border-radius:13px} .section p{margin:6px 0 0;line-height:1.4}
+.example{font-style:italic} .translation{color:#667085}
+.actions{display:flex;gap:8px;margin-top:14px} .actions button{flex:1;font-size:14px}
+.hidden{display:none}
+footer{text-align:center;color:#667085;padding:20px}
+@media(max-width:500px){h1{font-size:25px} .grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+<h1>📚 Diccionario Interactivo</h1>
+<p>Inglés → Español · Pronunciación fácil · Escucha y repite</p><p style="margin-top:10px;font-size:13px">Cada tarjeta incluye categoría gramatical y una guía de los sonidos de las vocales.</p>
+</header>
+<div class="toolbar">
+<input id="search" type="search" placeholder="🔎 Buscar palabra en español o inglés..." oninput="filterCards()">
+<button onclick="showAll()">📖 Ver todas</button>
+<button onclick="randomCard()">🎲 Aleatoria</button>
+</div>
+<div class="counter" id="counter"></div>
+<main class="grid" id="grid">
+    <article class="card" data-index="0" data-search="origen origin">
+      <div class="number">1</div>
+      <div class="english">origin</div>
+      <div class="spanish">Origen</div>
+      <div class="pron">🔊 Ó-ri-yin</div>
+      <div class="letters">🔤 or · i · gin</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> o = corta • i = corta • o = corta</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Dónde viene algo o alguien.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">The origin of this word is Latin.</p><p class="translation">El origen de esta palabra es latino.</p></div>
+      <div class="actions">
+        <button onclick="speak('origin')">🔊 Escuchar</button>
+        <button onclick="repeatWord('origin')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="1" data-search="promesa promise">
+      <div class="number">2</div>
+      <div class="english">promise</div>
+      <div class="spanish">Promesa</div>
+      <div class="pron">🔊 PRÓ-mis</div>
+      <div class="letters">🔤 prom · ise</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> o = corta • i = corta • e = muda</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Cuando alguien promete hacer algo.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">He made a promise.</p><p class="translation">Él hizo una promesa.</p></div>
+      <div class="actions">
+        <button onclick="speak('promise')">🔊 Escuchar</button>
+        <button onclick="repeatWord('promise')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="2" data-search="hablar talk">
+      <div class="number">3</div>
+      <div class="english">talk</div>
+      <div class="spanish">Hablar</div>
+      <div class="pron">🔊 TOK</div>
+      <div class="letters">🔤 talk</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Verbo (verb)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> a = larga (sonido /aw/)</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Conversar con alguien.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">We talk every day.</p><p class="translation">Hablamos todos los días.</p></div>
+      <div class="actions">
+        <button onclick="speak('talk')">🔊 Escuchar</button>
+        <button onclick="repeatWord('talk')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="3" data-search="razonamiento reasoning">
+      <div class="number">4</div>
+      <div class="english">reasoning</div>
+      <div class="spanish">Razonamiento</div>
+      <div class="pron">🔊 RÍ-zo-ning</div>
+      <div class="letters">🔤 rea · son · ing</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> ea = larga • o = corta • i = corta</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Proceso de pensar para llegar a una conclusión.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">Her reasoning is clear.</p><p class="translation">Su razonamiento es claro.</p></div>
+      <div class="actions">
+        <button onclick="speak('reasoning')">🔊 Escuchar</button>
+        <button onclick="repeatWord('reasoning')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="4" data-search="época era">
+      <div class="number">5</div>
+      <div class="english">era</div>
+      <div class="spanish">Época</div>
+      <div class="pron">🔊 Í-ra</div>
+      <div class="letters">🔤 e · ra</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> e = larga • a = corta</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Una época o etapa histórica.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">It was a different era.</p><p class="translation">Era una época diferente.</p></div>
+      <div class="actions">
+        <button onclick="speak('era')">🔊 Escuchar</button>
+        <button onclick="repeatWord('era')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="5" data-search="siglo century">
+      <div class="number">6</div>
+      <div class="english">century</div>
+      <div class="spanish">Siglo</div>
+      <div class="pron">🔊 SÉN-chu-ri</div>
+      <div class="letters">🔤 cen · tu · ry</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> e = corta • u = corta • y = sonido de /i/</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Un período de cien años.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">The twentieth century.</p><p class="translation">El siglo veinte.</p></div>
+      <div class="actions">
+        <button onclick="speak('century')">🔊 Escuchar</button>
+        <button onclick="repeatWord('century')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="6" data-search="período period">
+      <div class="number">7</div>
+      <div class="english">period</div>
+      <div class="spanish">Período</div>
+      <div class="pron">🔊 PÍ-ri-od</div>
+      <div class="letters">🔤 pe · ri · od</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> e = corta • i = corta • o = corta</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Una cantidad de tiempo o una etapa.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">This was an important period.</p><p class="translation">Este fue un período importante.</p></div>
+      <div class="actions">
+        <button onclick="speak('period')">🔊 Escuchar</button>
+        <button onclick="repeatWord('period')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="7" data-search="objetivo objective">
+      <div class="number">8</div>
+      <div class="english">objective</div>
+      <div class="spanish">Objetivo</div>
+      <div class="pron">🔊 ob-YÉK-tiv</div>
+      <div class="letters">🔤 ob · jec · tive</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> o = corta • e = corta • i = corta • e = muda</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Una meta que se quiere alcanzar.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">Our objective is to learn.</p><p class="translation">Nuestro objetivo es aprender.</p></div>
+      <div class="actions">
+        <button onclick="speak('objective')">🔊 Escuchar</button>
+        <button onclick="repeatWord('objective')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="8" data-search="propósito purpose">
+      <div class="number">9</div>
+      <div class="english">purpose</div>
+      <div class="spanish">Propósito</div>
+      <div class="pron">🔊 PÉR-pes</div>
+      <div class="letters">🔤 pur · pose</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> u = corta • o = larga (la e final es muda)</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Para qué se hace algo o para qué sirve.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">What is the purpose of this?</p><p class="translation">¿Cuál es el propósito de esto?</p></div>
+      <div class="actions">
+        <button onclick="speak('purpose')">🔊 Escuchar</button>
+        <button onclick="repeatWord('purpose')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="9" data-search="conocer know">
+      <div class="number">10</div>
+      <div class="english">know</div>
+      <div class="spanish">Conocer</div>
+      <div class="pron">🔊 NÓU</div>
+      <div class="letters">🔤 k · now</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Verbo (verb)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> ow = sonido largo de /o/; k es muda</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Conocer a alguien o saber algo.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">I know him.</p><p class="translation">Lo conozco.</p></div>
+      <div class="actions">
+        <button onclick="speak('know')">🔊 Escuchar</button>
+        <button onclick="repeatWord('know')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="10" data-search="sonido sound">
+      <div class="number">11</div>
+      <div class="english">sound</div>
+      <div class="spanish">Sonido</div>
+      <div class="pron">🔊 SAUND</div>
+      <div class="letters">🔤 s · ound</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> ou = sonido /au/; no es una vocal corta/larga simple</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Algo que escuchamos.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">I heard a strange sound.</p><p class="translation">Escuché un sonido extraño.</p></div>
+      <div class="actions">
+        <button onclick="speak('sound')">🔊 Escuchar</button>
+        <button onclick="repeatWord('sound')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="11" data-search="gracias thanks">
+      <div class="number">12</div>
+      <div class="english">thanks</div>
+      <div class="spanish">Gracias</div>
+      <div class="pron">🔊 ZANKS</div>
+      <div class="letters">🔤 th · anks</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo / expresión (noun / expression)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> a = corta</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Para agradecer.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">Thanks for your help.</p><p class="translation">Gracias por tu ayuda.</p></div>
+      <div class="actions">
+        <button onclick="speak('thanks')">🔊 Escuchar</button>
+        <button onclick="repeatWord('thanks')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="12" data-search="expresión expression">
+      <div class="number">13</div>
+      <div class="english">expression</div>
+      <div class="spanish">Expresión</div>
+      <div class="pron">🔊 ik-SPRÉ-shon</div>
+      <div class="letters">🔤 ex · pres · sion</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> e = corta • e = muda • io = sonido /shon/</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Una frase o forma de expresar algo.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">That is a common expression.</p><p class="translation">Esa es una expresión común.</p></div>
+      <div class="actions">
+        <button onclick="speak('expression')">🔊 Escuchar</button>
+        <button onclick="repeatWord('expression')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="13" data-search="dignidad dignity">
+      <div class="number">14</div>
+      <div class="english">dignity</div>
+      <div class="spanish">Dignidad</div>
+      <div class="pron">🔊 DÍG-ni-ti</div>
+      <div class="letters">🔤 dig · ni · ty</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> i = corta • i = corta • y = sonido de /i/</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Valor y respeto que merece una persona.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">Every person has dignity.</p><p class="translation">Toda persona tiene dignidad.</p></div>
+      <div class="actions">
+        <button onclick="speak('dignity')">🔊 Escuchar</button>
+        <button onclick="repeatWord('dignity')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="14" data-search="video video">
+      <div class="number">15</div>
+      <div class="english">video</div>
+      <div class="spanish">Video</div>
+      <div class="pron">🔊 VÍ-di-ou</div>
+      <div class="letters">🔤 vi · de · o</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> i = larga • e = corta • o = larga</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Una grabación audiovisual.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">Watch the video.</p><p class="translation">Mira el video.</p></div>
+      <div class="actions">
+        <button onclick="speak('video')">🔊 Escuchar</button>
+        <button onclick="repeatWord('video')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="15" data-search="gracia grace">
+      <div class="number">16</div>
+      <div class="english">grace</div>
+      <div class="spanish">Gracia</div>
+      <div class="pron">🔊 GREIS</div>
+      <div class="letters">🔤 gr · ace</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> a = larga • e final = muda</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>En contexto cristiano, favor inmerecido de Dios.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">God gives us grace.</p><p class="translation">Dios nos da gracia.</p></div>
+      <div class="actions">
+        <button onclick="speak('grace')">🔊 Escuchar</button>
+        <button onclick="repeatWord('grace')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="16" data-search="pregunta question">
+      <div class="number">17</div>
+      <div class="english">question</div>
+      <div class="spanish">Pregunta</div>
+      <div class="pron">🔊 KUÉS-chon</div>
+      <div class="letters">🔤 ques · tion</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> u = sonido /kw/ • e = corta</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Para pedir información.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">I have a question.</p><p class="translation">Tengo una pregunta.</p></div>
+      <div class="actions">
+        <button onclick="speak('question')">🔊 Escuchar</button>
+        <button onclick="repeatWord('question')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="17" data-search="respuesta answer">
+      <div class="number">18</div>
+      <div class="english">answer</div>
+      <div class="spanish">Respuesta</div>
+      <div class="pron">🔊 ÁN-ser</div>
+      <div class="letters">🔤 an · swer</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> a = corta • e = neutra; w = muda</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Lo que se dice para responder.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">What is the answer?</p><p class="translation">¿Cuál es la respuesta?</p></div>
+      <div class="actions">
+        <button onclick="speak('answer')">🔊 Escuchar</button>
+        <button onclick="repeatWord('answer')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="18" data-search="diccionario dictionary">
+      <div class="number">19</div>
+      <div class="english">dictionary</div>
+      <div class="spanish">Diccionario</div>
+      <div class="pron">🔊 DÍK-sho-ne-ri</div>
+      <div class="letters">🔤 dic · tion · ar · y</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> i = corta • io = sonido /sho/ • a = corta • y = /i/</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Libro o recurso que explica palabras.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">Use the dictionary.</p><p class="translation">Usa el diccionario.</p></div>
+      <div class="actions">
+        <button onclick="speak('dictionary')">🔊 Escuchar</button>
+        <button onclick="repeatWord('dictionary')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="19" data-search="creación creation">
+      <div class="number">20</div>
+      <div class="english">creation</div>
+      <div class="spanish">Creación</div>
+      <div class="pron">🔊 kri-ÉI-shon</div>
+      <div class="letters">🔤 cre · a · tion</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> e = larga • a = corta • io = /shon/</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>El acto de crear o algo creado.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">God created the world.</p><p class="translation">Dios creó el mundo.</p></div>
+      <div class="actions">
+        <button onclick="speak('creation')">🔊 Escuchar</button>
+        <button onclick="repeatWord('creation')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="20" data-search="maravilla wonder">
+      <div class="number">21</div>
+      <div class="english">wonder</div>
+      <div class="spanish">Maravilla</div>
+      <div class="pron">🔊 UÁN-der</div>
+      <div class="letters">🔤 won · der</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> o = corta • e = neutra</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Algo que causa admiración o asombro.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">The world is full of wonder.</p><p class="translation">El mundo está lleno de maravillas.</p></div>
+      <div class="actions">
+        <button onclick="speak('wonder')">🔊 Escuchar</button>
+        <button onclick="repeatWord('wonder')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="21" data-search="dios god">
+      <div class="number">22</div>
+      <div class="english">God</div>
+      <div class="spanish">Dios</div>
+      <div class="pron">🔊 GAD</div>
+      <div class="letters">🔤 G · od</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> o = sonido corto /a/ en inglés americano</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Se usa para referirse a Dios.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">God is good.</p><p class="translation">Dios es bueno.</p></div>
+      <div class="actions">
+        <button onclick="speak('God')">🔊 Escuchar</button>
+        <button onclick="repeatWord('God')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="22" data-search="sabiduría wisdom">
+      <div class="number">23</div>
+      <div class="english">wisdom</div>
+      <div class="spanish">Sabiduría</div>
+      <div class="pron">🔊 UÍZ-dom</div>
+      <div class="letters">🔤 wis · dom</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> i = corta • o = corta</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Buen juicio y conocimiento aplicado correctamente.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">Wisdom is valuable.</p><p class="translation">La sabiduría es valiosa.</p></div>
+      <div class="actions">
+        <button onclick="speak('wisdom')">🔊 Escuchar</button>
+        <button onclick="repeatWord('wisdom')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="23" data-search="contar count">
+      <div class="number">24</div>
+      <div class="english">count</div>
+      <div class="spanish">Contar</div>
+      <div class="pron">🔊 KAUNT</div>
+      <div class="letters">🔤 c · ount</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Verbo (verb)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> ou = sonido /au/; no es una vocal corta/larga simple</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Contar números o cantidades.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">Count the books.</p><p class="translation">Cuenta los libros.</p></div>
+      <div class="actions">
+        <button onclick="speak('count')">🔊 Escuchar</button>
+        <button onclick="repeatWord('count')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="24" data-search="pensar think">
+      <div class="number">25</div>
+      <div class="english">think</div>
+      <div class="spanish">Pensar</div>
+      <div class="pron">🔊 ZINK</div>
+      <div class="letters">🔤 th · i · nk</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Verbo (verb)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> i = corta</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Formar una idea, opinión o pensamiento.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">I think about it.</p><p class="translation">Pienso en ello.</p></div>
+      <div class="actions">
+        <button onclick="speak('think')">🔊 Escuchar</button>
+        <button onclick="repeatWord('think')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="25" data-search="mascota pet">
+      <div class="number">26</div>
+      <div class="english">pet</div>
+      <div class="spanish">Mascota</div>
+      <div class="pron">🔊 PET</div>
+      <div class="letters">🔤 p · e · t</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> e = corta</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Animal que se tiene como compañero.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">My pet is a dog.</p><p class="translation">Mi mascota es un perro.</p></div>
+      <div class="actions">
+        <button onclick="speak('pet')">🔊 Escuchar</button>
+        <button onclick="repeatWord('pet')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="26" data-search="hombre man">
+      <div class="number">27</div>
+      <div class="english">man</div>
+      <div class="spanish">Hombre</div>
+      <div class="pron">🔊 MAN</div>
+      <div class="letters">🔤 m · a · n</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> a = corta</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Un hombre adulto.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">The man is here.</p><p class="translation">El hombre está aquí.</p></div>
+      <div class="actions">
+        <button onclick="speak('man')">🔊 Escuchar</button>
+        <button onclick="repeatWord('man')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="27" data-search="luna moon">
+      <div class="number">28</div>
+      <div class="english">moon</div>
+      <div class="spanish">Luna</div>
+      <div class="pron">🔊 MUN</div>
+      <div class="letters">🔤 m · oo · n</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> oo = larga</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>El astro que vemos de noche.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">The moon is bright.</p><p class="translation">La luna está brillante.</p></div>
+      <div class="actions">
+        <button onclick="speak('moon')">🔊 Escuchar</button>
+        <button onclick="repeatWord('moon')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="28" data-search="sol sun">
+      <div class="number">29</div>
+      <div class="english">sun</div>
+      <div class="spanish">Sol</div>
+      <div class="pron">🔊 SAN</div>
+      <div class="letters">🔤 s · u · n</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> u = corta</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>El Sol.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">The sun is shining.</p><p class="translation">El sol está brillando.</p></div>
+      <div class="actions">
+        <button onclick="speak('sun')">🔊 Escuchar</button>
+        <button onclick="repeatWord('sun')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="29" data-search="teléfono phone">
+      <div class="number">30</div>
+      <div class="english">phone</div>
+      <div class="spanish">Teléfono</div>
+      <div class="pron">🔊 FÓUN</div>
+      <div class="letters">🔤 ph · one</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> o = larga • e final = muda</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Un teléfono o aparato para comunicarse.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">My phone is here.</p><p class="translation">Mi teléfono está aquí.</p></div>
+      <div class="actions">
+        <button onclick="speak('phone')">🔊 Escuchar</button>
+        <button onclick="repeatWord('phone')">🗣️ Repetir</button>
+      </div>
+    </article>
+    <article class="card" data-index="30" data-search="objetos objects">
+      <div class="number">31</div>
+      <div class="english">objects</div>
+      <div class="spanish">Objetos</div>
+      <div class="pron">🔊 ÓB-yekts</div>
+      <div class="letters">🔤 ob · jects</div>
+      <div class="grammar"><b>🏷️ Categoría gramatical:</b> Sustantivo (noun, plural)</div>
+      <div class="vowels"><b>🔤 Sonido de las vocales:</b> o = corta • e = muda</div>
+      <div class="section"><b>📌 ¿Cuándo se usa?</b><p>Cosas o elementos materiales.</p></div>
+      <div class="section"><b>💬 Ejemplo</b><p class="example">These objects are on the table.</p><p class="translation">Estos objetos están sobre la mesa.</p></div>
+      <div class="actions">
+        <button onclick="speak('objects')">🔊 Escuchar</button>
+        <button onclick="repeatWord('objects')">🗣️ Repetir</button>
+      </div>
+    </article></main>
+<footer>💡 Consejo: escucha la palabra varias veces y luego repítela en voz alta.</footer>
+<script>
+const cards=[...document.querySelectorAll('.card')];
+function speak(text){
+  if(!('speechSynthesis' in window)){alert('Tu navegador no permite reproducir voz. Prueba abrir este archivo con Chrome.');return;}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='en-US'; u.rate=.78; u.pitch=1;
+  speechSynthesis.speak(u);
+}
+function repeatWord(text){
+  speak(text);
+  setTimeout(()=>speak(text),1700);
+}
+function filterCards(){
+ const q=document.getElementById('search').value.toLowerCase().trim();
+ let n=0;
+ cards.forEach(c=>{const ok=!q||c.dataset.search.includes(q);c.classList.toggle('hidden',!ok);if(ok)n++;});
+ document.getElementById('counter').textContent=n+' palabra'+(n===1?'':'s')+' encontrada'+(n===1?'':'s');
+}
+function showAll(){document.getElementById('search').value='';filterCards();window.scrollTo({top:0,behavior:'smooth'})}
+function randomCard(){
+ cards.forEach(c=>c.classList.add('hidden'));
+ const c=cards[Math.floor(Math.random()*cards.length)];c.classList.remove('hidden');
+ c.scrollIntoView({behavior:'smooth',block:'center'});
+}
+filterCards();
+</script>
+</body>
+</html>
